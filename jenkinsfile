@@ -9,7 +9,7 @@ pipeline {
         }
        stage('clone repo') {
             steps {
-                git branch: 'master', url: 'https://github.com/kaiselhabib/jenkinstp3.git'
+                git branch: 'main', url: 'https://github.com/kaiselhabib/jenkinstp3.git'
             }
         }
     
