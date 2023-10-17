@@ -1,33 +1,31 @@
 pipeline {
-  agent any
-  tools {
-    maven 'maven'
-  }
-  stages {
-    stage ("Clean up"){
-      steps {
-        deleteDir()
-      }
-    }
-    stage ("Clone repo"){
-      steps {
-        sh "git clone https://github.com/kaiselhabib/jenkinstp3.git"
-      }
-    }
-    stage ("Generate backend image") {
-      steps {
-        
-        sh "mvn clean install"
-        sh "docker build -t backend ."
-      }
-    }
+    agent any
   
-stage ("Run docker compose") {
-  steps {
+    stages {
+ stage('clean up') {
+            steps {
+                deleteDir()
+            }
+        }
+       stage('clone repo') {
+            steps {
+                git branch: 'master', url: 'https://github.com/kaiselhabib/jenkinstp3.git'
+            }
+        }
     
-      sh "docker compose up -d"
-    
-  }
+        stage('Build Spring') {
+            
+            steps {
+                sh "mvn clean install"
+                sh 'docker build -t backend .'
+            }
+        }
+      
+        stage('Run Docker compose') {
+            steps {
+                    sh 'docker-compose up -d'
+                
+            }
+        }
+    }
 }
-}
-
